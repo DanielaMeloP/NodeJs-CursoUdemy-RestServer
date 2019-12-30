@@ -1,8 +1,9 @@
 require("./config/config");
 
 const express = require('express');
-const app = express();
+const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const app = express();
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -10,47 +11,37 @@ app.use(bodyParser.urlencoded({ extended: false }))
 /// parse application/json
 app.use(bodyParser.json())
 
-// Muestra data
-app.get('/usuario', function(req, res) {
-    res.json('get Usuario');
-});
+// Exporta las rutas
+app.use(require("./routes/usuario"));
 
-// Crea data
-app.post('/usuario', function(req, res) {
+// Realiza conexion a DB MONGO
+/*mongoose.connect('mongodb://localhost/cafe', {
 
-    let body = req.body;
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('DB Connected!'))
+    .catch(err => {
+        console.log(`DB Connection Error: ${ err.message }`);
+    });*/
 
-    if (body.nombre === undefined) {
-
-        res.status(400).json({
-            ok: false,
-            mensaje: "El nombre es necesario"
-        })
-
-    } else {
-        res.json({
-            persona: body
-        });
-    }
-
-});
-
-// Actualizar data
-app.put('/usuario/:id', function(req, res) {
-
-    // Llama al ID que se rescata desde UTL 
-    let id = req.params.id;
-    res.json({
-        id
+// Con este comando se conecta a la BD local
+// mongoose.connect('mongodb://localhost/cafe', {
+mongoose.connect(process.env.URLDB, {
+        // useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    },
+    (err, res) => {
+        if (err) throw err;
+        console.log("Base de datos conectada");
     });
 
-});
 
-// Borra data
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario');
-});
 
+// Establece el puerto
 app.listen(process.env.PORT, () => {
     console.log("Escuchando puerto ", process.env.PORT);
 });
