@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Exporta las rutas
-app.use(require("./routes/usuario"));
+// Configuración global de rutas
+app.use(require("./routes/index"));
 
 // Realiza conexion a DB MONGO
 /*mongoose.connect('mongodb://localhost/cafe', {
