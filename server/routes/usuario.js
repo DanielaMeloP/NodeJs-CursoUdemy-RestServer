@@ -161,7 +161,7 @@ app.delete('/usuario/:id', verificaToken, function(req, res) {
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
 
         if (err) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             });
@@ -180,9 +180,6 @@ app.delete('/usuario/:id', verificaToken, function(req, res) {
             ok: true,
             usuario: usuarioBorrado
         });
-
-
-
 
     });
 });

@@ -25,3 +25,6 @@ urlDB = "mongodb+srv://strujenstrajen:I5Ktfvb5G9QfGm8v@cluster0-oxage.mongodb.ne
     //}
 
 process.env.URLDB = urlDB;
+
+// Google Client ID
+process.env.CLIENT_ID = process.env.CLIENT_ID || "1094073219637-p2485bj2mvr019olb9nnosob5e9a3otl.apps.googleusercontent.com";
