@@ -53,7 +53,40 @@ let verificaAdmin_Role = (req, res, next) => {
     }
 };
 
+
+// =======================
+// VERIFICAR TOKEN IMG
+// =======================
+
+let verificaTokenImg = (req, res, next) => {
+
+    // Rescata el token de la URL
+
+    let token = req.query.token;
+   
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+
+        if (err) {
+            return res.status(401).json({
+
+                ok: false,
+                err: {
+                    message: "Token no valido"
+                }
+
+            });
+        }
+
+        req.usuario = decoded.usuario;
+        // El next ejecuta codigo siguiente
+        next();
+
+    });
+
+}
+
 module.exports = {
     verificaToken,
-    verificaAdmin_Role
+    verificaAdmin_Role,
+    verificaTokenImg
 };
